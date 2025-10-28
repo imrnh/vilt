@@ -1,0 +1,16 @@
+torchmetrics==1.2.1
+transformers==4.36.2
+diffusers==0.24.0
+accelerate==1.10.1
+huggingface_hub==0.25.0
+einops==0.7.0
+opencv-python==4.11.0.86
+gradio==4.24.0
+fvcore
+cloudpickle
+omegaconf
+pycocotools
+av
+onnxruntime
+protobuf<5
+peft==0.10.0

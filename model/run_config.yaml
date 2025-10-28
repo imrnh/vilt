@@ -1,0 +1,26 @@
+cloth_config_path: 'checkpoints/cl_unet/config.json'
+cloth_weights_path: 'checkpoints/cl_unet/cl_unet.pth'
+denoising_config_path: 'checkpoints/denoising_unet/config.json'
+denoising_weights_path: 'checkpoints/denoising_unet/denoising_unet.pth'
+vae_model_path: 'stabilityai/sd-vae-ft-mse'
+
+dataset:
+  #if you want to infer only one image, please change infer_type to single
+  infer_type: "single"
+  image_height: 512
+  image_width: 384
+  data_root: "data/"
+  batch_size: 1
+  cloth_path: "data/cloth.png"
+  person_path: "data/person.png"
+  save_path: "output"
+
+noise_scheduler_kwargs:
+  num_train_timesteps: 500
+  beta_start:          0.0005
+  beta_end:            0.01
+  beta_schedule:       "scaled_linear"
+  steps_offset:        1
+  clip_sample:         false
+
+seed: 42

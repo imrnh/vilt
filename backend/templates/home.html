@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home</title>
+</head>
+
+<body>
+    <h1>Welcome, {{ user.username }}!</h1>
+    <p>You’re logged in via Google.</p>
+    <a href="{% url 'account_logout' %}">Logout</a>
+</body>
+
+</html>
