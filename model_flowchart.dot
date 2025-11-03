@@ -1,0 +1,107 @@
+digraph ModelArchitecture {
+    // --- Global Styles ---
+    graph [
+        fontname="Arial",
+        nodesep=1,
+        ranksep=1.2,
+        splines=ortho,
+        label="Virtual Try-On Model Architecture",
+        labelloc=t,
+        fontsize=20
+    ];
+    node [
+        shape=box,
+        style="filled",
+        fillcolor="#f0f4f7",
+        color="#4b6a8a",
+        fontname="Arial",
+        penwidth=2,
+        margin="0.15,0.1"
+    ];
+    edge [
+        fontname="Arial",
+        color="#4b6a8a",
+        penwidth=1.5
+    ];
+
+    // --- Input Nodes ---
+    subgraph cluster_inputs {
+        label="Inputs";
+        style="dashed";
+        bgcolor="#fdfdfd";
+        person_image [label="Person Image (xp)", shape=oval, fillcolor="#e6eef5"];
+        cloth_image [label="Garment Image (xg)", shape=oval, fillcolor="#e6eef5"];
+        noise [label="Random Noise (zt)", shape=oval, fillcolor="#e6eef5"];
+    }
+
+    // --- VAE Encoding ---
+    subgraph cluster_vae_enc {
+        label = "1. VAE Encoding";
+        style = "dashed";
+        bgcolor="#fdfdfd";
+        vae_encoder_p [label="VAE Encoder"];
+        vae_encoder_c [label="VAE Encoder"];
+    }
+    
+    // --- Latent Representations ---
+    person_latent [label="Person Latent (xp_latent)", shape=note, fillcolor="#fdfde0", color="#b0a060"];
+    cloth_latent [label="Garment Latent (xg_latent)", shape=note, fillcolor="#fdfde0", color="#b0a060"];
+
+    // --- Cloth Pipeline (Write Mode) ---
+    subgraph cluster_cloth {
+        label = "2. Cloth Feature Extraction (Write Mode)";
+        bgcolor="#f8f8f8";
+        cloth_unet [label="Cloth U-Net"];
+        feature_bank [label="Cloth Feature Bank\n(Multi-scale Features)", shape=cylinder, fillcolor="#fff0e0", color="#d9a066", penwidth=2];
+    }
+
+    // --- Denoising Loop (Read Mode) ---
+    subgraph cluster_denoising {
+        label = "3. Denoising Loop (Read Mode)";
+        bgcolor="#f8f8f8";
+        
+        scheduler_step [label="Scheduler Step (t, t-1, ...)"];
+        denoising_unet [label="Denoising U-Net\n(Executes Mutual Self-Attention)"];
+    }
+
+    // --- Output Pipeline ---
+    subgraph cluster_output {
+        label = "4. VAE Decoding";
+        style = "dashed";
+        bgcolor="#fdfdfd";
+        vae_decoder [label="VAE Decoder"];
+        final_image [label="Final Image", shape=oval, fillcolor="#e6eef5"];
+    }
+
+    // --- Define Flow ---
+
+    // 1. Inputs to VAEs
+    person_image -> vae_encoder_p;
+    cloth_image -> vae_encoder_c;
+
+    // 2. VAEs to Latents
+    vae_encoder_p -> person_latent;
+    vae_encoder_c -> cloth_latent;
+
+    // 3. Cloth Pipeline
+    cloth_latent -> cloth_unet;
+    cloth_unet -> feature_bank [label=" Intercepted Features", style=dashed, color="#d9a066", penwidth=2];
+
+    // 4. Denoising Loop
+    noise -> scheduler_step [label=" zt (start)"];
+    scheduler_step -> denoising_unet [label=" zt-1 (current noise)"];
+    denoising_unet -> scheduler_step [label=" Predicted Noise"];
+
+    // 5. Conditions to Denoising U-Net
+    person_latent -> denoising_unet [label=" Condition 1 (Concat)"];
+    feature_bank -> denoising_unet [label=" Condition 2 (Injected Features)", style=dashed, color="#d9a066", penwidth=2];
+
+    // 6. Output
+    scheduler_step -> vae_decoder [label=" z0 (final latent)"];
+    vae_decoder -> final_image;
+
+    // --- Rank Alignment for Clarity ---
+    { rank=same; person_image; cloth_image; noise; }
+    { rank=same; vae_encoder_p; vae_encoder_c; }
+    { rank=same; person_latent; cloth_latent; }
+}

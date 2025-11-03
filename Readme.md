@@ -61,6 +61,13 @@ Intercepting the self-attention blocks of both U-Nets to pass information. This 
 
 This `Mutual Self-Attention` forces the denoising network (while generating the person) to look up and pull relevant visual information from the garment features at every layer, effectively "draping" the garment's texture and style onto the generated person's shape.
 
+
+<center><br>
+<img src="model/data/architecture_overview.png">
+<br>
+Fig: Mutual Self-Attention Mechanism of Cloth and Person U-Net models.
+</center>
+
 ## Core Components
 
 * **VAE:** A standard Variational Autoencoder used to embed images.
