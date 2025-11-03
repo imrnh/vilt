@@ -1,16 +1,21 @@
 # Virtual try on application
 
+Mutual Self-attention based **Dual U-Net** architecture for virtual try on. Please visit https://vilt.vercel.app to try it out. 
+
 <center>
-<img src="bin/presentation/demo_1.75x.gif" alt="Demo" height="400">
+
+
+
+
+<table>
+<td>
+<img src="bin/presentation/demo_1.75x.gif" alt="Demo" width="60%">
 
 or watch the video here: https://youtu.be/izVLqsLxXvg
 
 <br>
 <br>
-
-
-
-<table>
+</td>
 <td>
 <br>
 <img src="bin/presentation/1.png">
