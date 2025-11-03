@@ -4,18 +4,15 @@ Mutual Self-attention based **Dual U-Net** architecture for virtual try on. Plea
 
 <center>
 
-
-
-
-<table>
-<td>
-<img src="bin/presentation/demo_1.75x.gif" alt="Project Demo">
+<img src="bin/presentation/demo_1.75x.gif" alt="Project Demo" width="60%">
 
 or watch the video here: https://youtu.be/izVLqsLxXvg
 
 <br>
 <br>
-</td>
+
+
+<table>
 <td>
 <br>
 <img src="bin/presentation/1.png">
