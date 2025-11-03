@@ -36,6 +36,14 @@ or watch the video here: https://youtu.be/izVLqsLxXvg
 The system is a **two-stage, dual-U-Net diffusion model**. It is designed to "try on" a garment from a source image (`cloth_image`) onto a target person from another image (`person_image`).
 
 
+Unlike standard diffusion models that use a single U-Net, this architecture employs two distinct U-Nets:
+
+1. `Cloth U-Net:` Its sole purpose is to process the garment image and extract its key visual features (like texture, pattern, and color).
+
+2. `Denoising U-Net:` This is the main image generator. It builds the new image of the person wearing the garment by progressively denoising a random latent. It is guided by two sources: the encoded person image and the features from the Reference U-Net.
+
+
+
 <center><br>
 <img src="model/data/architecture_overview.png">
 <br>
@@ -43,11 +51,6 @@ Fig: Mutual Self-Attention Mechanism of Cloth and Person U-Net models.
 </center>
 
 
-Unlike standard diffusion models that use a single U-Net, this architecture employs two distinct U-Nets:
-
-1. `Cloth U-Net:` Its sole purpose is to process the garment image and extract its key visual features (like texture, pattern, and color).
-
-2. `Denoising U-Net:` This is the main image generator. It builds the new image of the person wearing the garment by progressively denoising a random latent. It is guided by two sources: the encoded person image and the features from the Reference U-Net.
 
 These two U-Nets are coupled to inject the garment's features into the denoising process using mutual self-attention.
 
