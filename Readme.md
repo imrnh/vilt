@@ -49,7 +49,9 @@ These two U-Nets are coupled to inject the garment's features into the denoising
 <center><br>
 <img src="model/data/architecture_overview.png">
 <br>
-Fig: Mutual Self-Attention Mechanism of Cloth and Person U-Net models.
+
+*Fig: Mutual Self-Attention Mechanism of Cloth and Person U-Net models.*
+
 </center>
 
 
